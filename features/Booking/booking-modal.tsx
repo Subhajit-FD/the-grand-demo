@@ -563,7 +563,7 @@ export default function BookingModal() {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-100 flex items-center justify-center bg-background/70 backdrop-blur-md px-4 py-8"
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-background/70 backdrop-blur-md px-4 py-8"
       style={{ display: "none" }}
     >
       <div

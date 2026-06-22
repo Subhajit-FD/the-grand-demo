@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
@@ -35,7 +35,16 @@ export default function MobileNavbar({
   const pathname = usePathname();
   const { openBooking } = useBooking();
 
-
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const headerRef = useRef<HTMLDivElement | null>(null);
   const linksRef = useRef<(HTMLAnchorElement | null)[]>([]);
@@ -146,7 +155,7 @@ export default function MobileNavbar({
         size="icon"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label={isOpen ? "Close menu" : "Open menu"}
-        className="relative z-1001"
+        className="relative z-[1001]"
       >
         {isOpen ? <XIcon size={22} weight="bold" /> : <ListIcon size={22} weight="bold" />}
       </Button>
@@ -154,7 +163,7 @@ export default function MobileNavbar({
       {/* Full-screen overlay */}
       <div
         ref={overlayRef}
-        className="fixed inset-0 z-1000 flex-col bg-background"
+        className="fixed inset-0 z-[1000] flex-col bg-background"
         style={{ display: "none", clipPath: "inset(0 0 100% 0)" }}
       >
         {/* Header: Logo */}
