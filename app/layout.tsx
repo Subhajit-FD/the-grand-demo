@@ -1,8 +1,11 @@
-import { Geist, Geist_Mono, DM_Sans, Playfair_Display } from "next/font/google"
+import { Geist_Mono, DM_Sans, Playfair_Display } from "next/font/google"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
+import Header from "@/components/core/header";
+import Footer from "@/components/core/footer";
+import { BookingProvider } from "@/features/Booking/booking-context";
+import BookingModal from "@/features/Booking/booking-modal";
 
 const playfairDisplayHeading = Playfair_Display({subsets:['latin'],variable:'--font-heading'});
 
@@ -25,8 +28,14 @@ export default function RootLayout({
       className={cn("antialiased", fontMono.variable, "font-sans", dmSans.variable, playfairDisplayHeading.variable)}
     >
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <BookingProvider>
+          <Header />
+          {children}
+          <BookingModal />
+          <Footer />
+        </BookingProvider>
       </body>
     </html>
   )
 }
+
