@@ -51,7 +51,7 @@ const Header = () => {
       })
       .progress(1)
 
-    ScrollTrigger.create({
+    const trigger = ScrollTrigger.create({
       start: "top top",
       end: "max",
       onUpdate: (self) => {
@@ -65,6 +65,10 @@ const Header = () => {
         }
       },
     })
+
+    return () => {
+      trigger.kill()
+    }
   }, { scope: headerRef })
 
   return (
