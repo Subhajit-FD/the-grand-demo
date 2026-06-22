@@ -478,6 +478,13 @@ export default function BookingModal() {
 
   const overlayRef = useRef<HTMLDivElement>(null);
   const modalBoxRef = useRef<HTMLDivElement>(null);
+  const [isSummaryExpanded, setIsSummaryExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!isOpen) {
+      setIsSummaryExpanded(false);
+    }
+  }, [isOpen]);
 
   // GSAP animations for modal open/close
   useGSAP(() => {
@@ -562,7 +569,7 @@ export default function BookingModal() {
       <div
         ref={modalBoxRef}
         className={cn(
-          "w-full bg-background border border-foreground/15 rounded-sm shadow-2xl overflow-hidden flex flex-col md:grid md:grid-cols-12 duration-200 transition-all",
+          "w-full bg-background border border-foreground/15 rounded-sm shadow-2xl overflow-y-auto md:overflow-hidden flex flex-col md:grid md:grid-cols-12 duration-200 transition-all",
           isSuccessStep ? "max-w-xl min-h-[500px]" : "max-w-5xl min-h-[600px] h-[90vh] md:h-[80vh]"
         )}
       >
@@ -570,69 +577,101 @@ export default function BookingModal() {
         {/* Left Column: Summary (Only render if NOT in success step) */}
         {!isSuccessStep && (
           <div
-            className="col-span-12 md:col-span-4 relative flex flex-col justify-between p-6 text-background border-b md:border-b-0 md:border-r border-foreground/15 animate-fade-in"
+            className={cn(
+              "col-span-12 md:col-span-4 relative flex flex-col justify-between text-background border-b md:border-b-0 md:border-r border-foreground/15 animate-fade-in shrink-0 transition-all duration-300",
+              isSummaryExpanded ? "h-auto" : "h-auto md:h-full"
+            )}
             style={{
               backgroundImage: `linear-gradient(to bottom, rgba(15,15,15,0.7), rgba(10,10,10,0.85)), url(${getSidebarBgImage()})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
           >
-            {/* Top Info */}
-            <div className="flex flex-col gap-1 z-10">
-              <span className="text-[0.65rem] font-mono uppercase tracking-widest text-white/50">The Grand Hotel</span>
-              <h4 className="text-xl font-heading italic mt-2 text-white">{getSelectionTitle()}</h4>
-              <p className="text-[0.7rem] text-white/70 mt-1 leading-normal font-sans">
-                {activeTab === "rooms" && `Check In: ${formData.checkIn.toLocaleDateString("en-IN")} | Check Out: ${formData.checkOut.toLocaleDateString("en-IN")} (${nights} night${nights > 1 ? "s" : ""})`}
-                {activeTab === "restaurant" && `Dining: ${formData.restaurantDate.toLocaleDateString("en-IN")} at ${formData.restaurantTime}`}
-                {activeTab === "banquet" && `Banquet: ${formData.banquetDate.toLocaleDateString("en-IN")} (${formData.banquetDuration})`}
-                {activeTab === "social-gathering" && `Event: ${formData.gatheringSpace} - ${formData.gatheringDate.toLocaleDateString("en-IN")}`}
-              </p>
+            {/* Mobile Toggle Header */}
+            <div 
+              onClick={() => setIsSummaryExpanded(!isSummaryExpanded)}
+              className="flex md:hidden items-center justify-between p-4 cursor-pointer z-10 w-full hover:bg-white/5 transition-colors border-b border-white/5"
+            >
+              <div className="flex flex-col text-left">
+                <span className="text-[0.55rem] font-mono uppercase tracking-widest text-white/50">Your Selection</span>
+                <span className="text-sm font-sans font-medium text-white">{getSelectionTitle()}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-mono font-medium text-brand">₹{totalPrice.toLocaleString("en-IN")}</span>
+                <CaretDown 
+                  size={14} 
+                  className={cn("text-white/60 transition-transform duration-200", isSummaryExpanded && "rotate-180")} 
+                />
+              </div>
             </div>
 
-            {/* Middle: Selected Addons list */}
-            {selectedAddons.length > 0 && (
-              <div className="flex flex-col gap-2 my-6 z-10">
-                <span className="text-[0.6rem] font-mono uppercase tracking-wider text-white/40 border-b border-white/10 pb-1">Bespoke Addons</span>
-                <ul className="flex flex-col gap-1.5 max-h-[120px] overflow-y-auto pr-1">
-                  {selectedAddons.map((addonId) => {
-                    const addList = ADDONS_DATA[activeTab] || [];
-                    const ad = addList.find((a) => a.id === addonId);
-                    if (!ad) return null;
-                    return (
-                      <li key={addonId} className="flex justify-between items-center text-[0.65rem] text-white/80 font-sans">
-                        <span className="truncate pr-2">{ad.name}</span>
-                        <span className="font-mono shrink-0">₹{ad.price.toLocaleString("en-IN")}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
+            {/* Main Summary Content (Visible always on desktop, and conditionally on mobile when expanded) */}
+            <div 
+              className={cn(
+                "w-full flex-col justify-between p-6 md:h-full md:flex",
+                isSummaryExpanded ? "flex" : "hidden"
+              )}
+            >
+              {/* Top Info */}
+              <div className="flex flex-col gap-1 z-10">
+                <span className="text-[0.65rem] font-mono uppercase tracking-widest text-white/50">The Grand Hotel</span>
+                <h4 className="text-xl font-heading italic mt-2 text-white">{getSelectionTitle()}</h4>
+                <p className="text-[0.7rem] text-white/70 mt-1 leading-normal font-sans">
+                  {activeTab === "rooms" && `Check In: ${formData.checkIn.toLocaleDateString("en-IN")} | Check Out: ${formData.checkOut.toLocaleDateString("en-IN")} (${nights} night${nights > 1 ? "s" : ""})`}
+                  {activeTab === "restaurant" && `Dining: ${formData.restaurantDate.toLocaleDateString("en-IN")} at ${formData.restaurantTime}`}
+                  {activeTab === "banquet" && `Banquet: ${formData.banquetDate.toLocaleDateString("en-IN")} (${formData.banquetDuration})`}
+                  {activeTab === "social-gathering" && `Event: ${formData.gatheringSpace} - ${formData.gatheringDate.toLocaleDateString("en-IN")}`}
+                </p>
               </div>
-            )}
 
-            {/* Bottom: Price Calc Summary */}
-            <div className="flex flex-col gap-2 mt-auto pt-4 border-t border-white/10 z-10">
-              <div className="flex justify-between text-xs text-white/60">
-                <span>Base Price</span>
-                <span className="font-mono">₹{basePrice.toLocaleString("en-IN")}</span>
-              </div>
-              {addonPrice > 0 && (
-                <div className="flex justify-between text-xs text-white/60">
-                  <span>Addons Subtotal</span>
-                  <span className="font-mono">₹{addonPrice.toLocaleString("en-IN")}</span>
+              {/* Middle: Selected Addons list */}
+              {selectedAddons.length > 0 && (
+                <div className="flex flex-col gap-2 my-6 z-10">
+                  <span className="text-[0.6rem] font-mono uppercase tracking-wider text-white/40 border-b border-white/10 pb-1">Bespoke Addons</span>
+                  <ul className="flex flex-col gap-1.5 max-h-[120px] overflow-y-auto pr-1">
+                    {selectedAddons.map((addonId) => {
+                      const addList = ADDONS_DATA[activeTab] || [];
+                      const ad = addList.find((a) => a.id === addonId);
+                      if (!ad) return null;
+                      return (
+                        <li key={addonId} className="flex justify-between items-center text-[0.65rem] text-white/80 font-sans">
+                          <span className="truncate pr-2">{ad.name}</span>
+                          <span className="font-mono shrink-0">₹{ad.price.toLocaleString("en-IN")}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               )}
-              <div className="flex justify-between text-sm font-sans font-medium text-brand pt-2 border-t border-white/10 mt-1">
-                <span>Total Amount</span>
-                <span className="font-mono">₹{totalPrice.toLocaleString("en-IN")}</span>
+
+              {/* Bottom: Price Calc Summary */}
+              <div className="flex flex-col gap-2 mt-auto pt-4 border-t border-white/10 z-10">
+                <div className="flex justify-between text-xs text-white/60">
+                  <span>Base Price</span>
+                  <span className="font-mono">₹{basePrice.toLocaleString("en-IN")}</span>
+                </div>
+                {addonPrice > 0 && (
+                  <div className="flex justify-between text-xs text-white/60">
+                    <span>Addons Subtotal</span>
+                    <span className="font-mono">₹{addonPrice.toLocaleString("en-IN")}</span>
+                  </div>
+                )}
+                <div className="flex justify-between text-sm font-sans font-medium text-brand pt-2 border-t border-white/10 mt-1">
+                  <span>Total Amount</span>
+                  <span className="font-mono">₹{totalPrice.toLocaleString("en-IN")}</span>
+                </div>
+                {currentStep > 1 && (
+                  <button
+                    onClick={() => {
+                      setStep(1);
+                      setIsSummaryExpanded(false);
+                    }}
+                    className="text-[0.65rem] uppercase font-mono tracking-wider text-white/50 hover:text-white mt-3 text-left transition-colors cursor-pointer w-fit underline"
+                  >
+                    Edit details
+                  </button>
+                )}
               </div>
-              {currentStep > 1 && (
-                <button
-                  onClick={() => setStep(1)}
-                  className="text-[0.65rem] uppercase font-mono tracking-wider text-white/50 hover:text-white mt-3 text-left transition-colors cursor-pointer w-fit underline"
-                >
-                  Edit details
-                </button>
-              )}
             </div>
           </div>
         )}
@@ -641,7 +680,7 @@ export default function BookingModal() {
         <div
           className={cn(
             "p-6 md:p-8 flex flex-col justify-between flex-1 relative bg-background",
-            isSuccessStep ? "col-span-12" : "col-span-12 md:col-span-8 h-full"
+            isSuccessStep ? "col-span-12" : "col-span-12 md:col-span-8 h-auto md:h-full"
           )}
         >
           {/* Close button (only show if NOT on success step to avoid half-complete exits) */}

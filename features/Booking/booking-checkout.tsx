@@ -119,7 +119,7 @@ export default function BookingCheckout() {
           </div>
 
           {/* Forms (Right 7 Columns) */}
-          <div className="lg:col-span-7 flex flex-col gap-4 max-h-[300px] overflow-y-auto pr-1">
+          <div className="lg:col-span-7 flex flex-col gap-4 lg:max-h-[300px] lg:overflow-y-auto pr-1">
             {/* Contact Details */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               <div className="flex flex-col gap-1">

@@ -123,7 +123,7 @@ export default function BookingAddons() {
         </p>
 
         {/* Addons Grid */}
-        <div className="grid grid-cols-1 gap-4 mt-6 max-h-[380px] overflow-y-auto pr-1">
+        <div className="grid grid-cols-1 gap-4 mt-6 md:max-h-[380px] md:overflow-y-auto pr-1">
           {addons.map((addon) => {
             const isSelected = selectedAddons.includes(addon.id);
             return (
