@@ -55,7 +55,7 @@ export default function BookingSection() {
   };
 
   const tabs: { id: BookingType; label: string; icon: any }[] = [
-    { id: "rooms", label: "Rooms & Suites", icon: Bed },
+    { id: "rooms", label: "Rooms", icon: Bed },
     { id: "restaurant", label: "Dining", icon: ForkKnife },
     { id: "banquet", label: "Banquets", icon: Champagne },
     { id: "social-gathering", label: "Events", icon: Sparkle },
@@ -66,7 +66,7 @@ export default function BookingSection() {
       <div className="flex flex-col items-center gap-4">
         
         {/* Tabs Bar */}
-        <div className="flex flex-wrap items-center justify-center gap-1.5 bg-background/90 border border-foreground/10 rounded-full px-2 py-1 shadow-md w-full sm:w-auto overflow-hidden">
+        <div className="flex items-center justify-center gap-1 sm:gap-1.5 bg-background/90 border border-foreground/10 rounded-sm px-1.5 py-1 shadow-md w-full sm:w-auto overflow-hidden">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isSelected = dockTab === tab.id;
@@ -75,14 +75,14 @@ export default function BookingSection() {
                 key={tab.id}
                 onClick={() => setDockTab(tab.id)}
                 className={cn(
-                  "flex items-center gap-2 px-4 py-2 rounded-full text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer w-full sm:w-auto justify-center",
+                  "flex flex-col sm:flex-row items-center gap-0.5 sm:gap-2 px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-sm text-[0.6rem] sm:text-xs font-mono uppercase tracking-wider transition-all duration-300 cursor-pointer w-auto justify-center",
                   isSelected
                     ? "bg-foreground text-background font-semibold"
                     : "text-foreground/60 hover:text-foreground hover:bg-foreground/5"
                 )}
               >
                 <Icon size={14} weight={isSelected ? "fill" : "regular"} />
-                <span>{tab.label}</span>
+                <span className="text-center">{tab.label}</span>
               </button>
             );
           })}
@@ -145,7 +145,7 @@ export default function BookingSection() {
 
               {/* Room Selection */}
               <div className="flex flex-col gap-1 border border-foreground/10 rounded-sm p-3 bg-foreground/[0.01] lg:bg-transparent lg:border-0 lg:p-0 lg:border-r lg:border-foreground/10 lg:pr-4">
-                <span className="text-[0.6rem] font-mono uppercase tracking-wider text-foreground/45">Rooms & Suites</span>
+                <span className="text-[0.6rem] font-mono uppercase tracking-wider text-foreground/45">Rooms</span>
                 <Select
                   value={formData.roomType}
                   onValueChange={(val) => { if (val) updateFormData({ roomType: val }); }}

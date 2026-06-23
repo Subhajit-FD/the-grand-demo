@@ -137,7 +137,7 @@ const ImageSlider: FC = () => {
     <div className="flex w-full h-[85vh]">
       <div
         onClick={handleScreenClick}
-        className="relative w-dvw overflow-hidden select-none bg-black text-white"
+        className="relative w-full overflow-hidden select-none bg-black text-white"
       >
         {/* Images */}
         {ImagesLink.map((img, idx) => (
@@ -163,7 +163,7 @@ const ImageSlider: FC = () => {
               ref={(el) => {
                 if (titleRef.current) titleRef.current[idx] = el;
               }}
-              className={`absolute w-full text-[6vw] md:text-[3rem] font-semibold leading-tight ${
+              className={`absolute left-0 w-full text-[6vw] md:text-[3rem] font-semibold leading-tight ${
                 idx === current ? "visible" : "invisible"
               }`}
               style={{

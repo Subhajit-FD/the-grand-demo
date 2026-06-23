@@ -33,7 +33,7 @@ const Header = () => {
   const { openBooking } = useBooking()
 
   return (
-    <header className="flex items-center justify-between px-8 py-4 border-b border-foreground/5 bg-background">
+    <header className="flex items-center justify-between px-4 sm:px-8 py-4 border-b border-foreground/5 bg-background">
       <div className="logo">
         <Link href="/">
           <h1 className="text-xl font-medium tracking-wide">The Grand</h1>

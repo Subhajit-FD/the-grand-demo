@@ -99,7 +99,7 @@ const galleryItems: GalleryItem[] = [
     id: 11,
     category: "Pool",
     title: "Rooftop Sun deck",
-    src: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=500&auto=format&fit=crop",
+    src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=500&auto=format&fit=crop",
     height: 410,
   },
   {
@@ -127,21 +127,21 @@ const galleryItems: GalleryItem[] = [
     id: 15,
     category: "Rooms",
     title: "Suite Marble Bathroom",
-    src: "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=500&auto=format&fit=crop",
+    src: "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=500&auto=format&fit=crop",
     height: 450,
   },
   {
     id: 16,
     category: "Lobby",
     title: "Premium Lounge Seating",
-    src: "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?q=80&w=500&auto=format&fit=crop",
+    src: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=500&auto=format&fit=crop",
     height: 310,
   },
   {
     id: 17,
     category: "Restaurant",
     title: "The Grand Bar Lounge",
-    src: "https://images.unsplash.com/photo-1514933651103-005eec06c04b?q=80&w=500&auto=format&fit=crop",
+    src: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=500&auto=format&fit=crop",
     height: 430,
   },
   {
@@ -151,12 +151,62 @@ const galleryItems: GalleryItem[] = [
     src: "https://images.unsplash.com/photo-1540555700478-4be289fbecef?q=80&w=500&auto=format&fit=crop",
     height: 360,
   },
+  {
+    id: 19,
+    category: "Rooms",
+    title: "Presidential Bedroom",
+    src: "https://images.unsplash.com/photo-1590490360182-c33d57733427?q=80&w=500&auto=format&fit=crop",
+    height: 350,
+  },
+  {
+    id: 20,
+    category: "Lobby",
+    title: "Grand Lobby Chandelier",
+    src: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=500&auto=format&fit=crop",
+    height: 420,
+  },
+  {
+    id: 21,
+    category: "Restaurant",
+    title: "Fine Dining Dessert",
+    src: "https://images.unsplash.com/photo-1544025162-d76694265947?q=80&w=500&auto=format&fit=crop",
+    height: 340,
+  },
+  {
+    id: 22,
+    category: "Pool",
+    title: "Indoor Heated Pool",
+    src: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=500&auto=format&fit=crop",
+    height: 480,
+  },
+  {
+    id: 23,
+    category: "Banquet",
+    title: "Grand Ballroom Setup",
+    src: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=500&auto=format&fit=crop",
+    height: 440,
+  },
+  {
+    id: 24,
+    category: "Gym",
+    title: "Yoga & Pilates Room",
+    src: "https://images.unsplash.com/photo-1518611012118-696072aa579a?q=80&w=500&auto=format&fit=crop",
+    height: 370,
+  },
+  {
+    id: 25,
+    category: "Guest Corridor",
+    title: "Luxury Suite Entrance",
+    src: "https://images.unsplash.com/photo-1549294413-26f195afcbce?q=80&w=500&auto=format&fit=crop",
+    height: 390,
+  },
 ];
 
 export default function Gallery() {
   const [activeTab, setActiveTab] = useState("All");
   const [currentCategory, setCurrentCategory] = useState("All");
   const gridRef = useRef<HTMLDivElement | null>(null);
+  const isFirstRender = useRef(true);
 
   // Filter items based on selected category state
   const filteredItems =
@@ -176,26 +226,13 @@ export default function Gallery() {
         opacity: 0,
         scale: 0.95,
         y: 15,
-        duration: 0.3,
-        stagger: 0.02,
+        duration: 0.25,
+        stagger: 0.015,
         ease: "power2.in",
+        overwrite: "auto",
         onComplete: () => {
           // Update state after transition out finishes
           setCurrentCategory(tab);
-
-          // Stagger items back in
-          gsap.fromTo(
-            gridRef.current?.querySelectorAll(".gallery-item") || [],
-            { opacity: 0, scale: 0.95, y: 15 },
-            {
-              opacity: 1,
-              scale: 1,
-              y: 0,
-              duration: 0.55,
-              stagger: 0.025,
-              ease: "power3.out",
-            }
-          );
         },
       });
     } else {
@@ -203,26 +240,36 @@ export default function Gallery() {
     }
   };
 
-  // Initial load stagger animation
+  // Animate items in when currentCategory changes
+  useGSAP(() => {
+    const items = gridRef.current?.querySelectorAll(".gallery-item");
+    if (items && items.length > 0) {
+      const delay = isFirstRender.current ? 0.25 : 0;
+      isFirstRender.current = false;
+
+      gsap.fromTo(
+        items,
+        { opacity: 0, scale: 0.95, y: 15 },
+        {
+          opacity: 1,
+          scale: 1,
+          y: 0,
+          duration: 0.55,
+          stagger: 0.02,
+          ease: "power3.out",
+          delay,
+          overwrite: "auto",
+        }
+      );
+    }
+  }, [currentCategory]);
+
+  // Initial load stagger animation for header and tabs dock
   useGSAP(() => {
     gsap.fromTo(
       ".gallery-header-animate",
       { opacity: 0, y: 30 },
       { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "power3.out" }
-    );
-
-    gsap.fromTo(
-      gridRef.current?.querySelectorAll(".gallery-item") || [],
-      { opacity: 0, scale: 0.95, y: 20 },
-      {
-        opacity: 1,
-        scale: 1,
-        y: 0,
-        duration: 0.7,
-        stagger: 0.03,
-        ease: "power3.out",
-        delay: 0.2,
-      }
     );
 
     gsap.fromTo(
@@ -233,7 +280,7 @@ export default function Gallery() {
   }, []);
 
   return (
-    <div className="w-full min-h-screen bg-background py-16 md:py-24 flex flex-col gap-12 relative pb-8 px-6">
+    <div className="w-full min-h-screen bg-background py-16 md:py-24 flex flex-col gap-8 relative pb-8 px-6">
       {/* Title Header */}
       <div className="flex flex-col gap-2 border-b border-foreground/10 pb-6 max-w-2xl">
         <span className="gallery-header-animate text-[0.75rem] font-medium tracking-widest text-foreground/50 uppercase font-mono">
@@ -244,10 +291,32 @@ export default function Gallery() {
         </h1>
       </div>
 
+      {/* Tabs Dock */}
+      <div className="tabs-dock-animate sticky top-0 z-[40] bg-background/95 backdrop-blur-md py-4 -mx-6 px-6 border-b border-foreground/5 flex justify-start md:justify-center">
+        <div className="flex items-center gap-1 bg-background border border-foreground/15 px-3 py-2 rounded-sm shadow-md overflow-x-auto scrollbar-none max-w-full">
+          {tabs.map((tab) => {
+            const isActive = tab === activeTab;
+            return (
+              <button
+                key={tab}
+                onClick={() => handleTabChange(tab)}
+                className={`text-xs uppercase font-mono tracking-wider px-4 py-2 rounded-sm transition-all duration-300 whitespace-nowrap cursor-pointer ${
+                  isActive
+                    ? "bg-foreground text-background font-medium"
+                    : "text-foreground/60 hover:text-foreground"
+                }`}
+              >
+                {tab}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
       {/* Pinterest Masonry Grid */}
       <div
         ref={gridRef}
-        className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 w-full flex-grow"
+        className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 w-full flex-grow mt-4"
       >
         {filteredItems.map((item) => (
           <div
@@ -271,28 +340,6 @@ export default function Gallery() {
             </div>
           </div>
         ))}
-      </div>
-
-      {/* Floating Tabs Dock */}
-      <div className="tabs-dock-animate sticky bottom-8 z-[50] self-center max-w-[90vw] mt-auto">
-        <div className="flex items-center gap-1 bg-background border border-foreground/15 px-3 py-2 rounded-sm shadow-lg overflow-x-auto scrollbar-none">
-          {tabs.map((tab) => {
-            const isActive = tab === activeTab;
-            return (
-              <button
-                key={tab}
-                onClick={() => handleTabChange(tab)}
-                className={`text-xs uppercase font-mono tracking-wider px-4 py-2 rounded-sm transition-all duration-300 whitespace-nowrap cursor-pointer ${
-                  isActive
-                    ? "bg-foreground text-background font-medium"
-                    : "text-foreground/60 hover:text-foreground"
-                }`}
-              >
-                {tab}
-              </button>
-            );
-          })}
-        </div>
       </div>
     </div>
   );

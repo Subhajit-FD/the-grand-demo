@@ -122,12 +122,12 @@ export default function ContactUs() {
   return (
     <div
       ref={containerRef}
-      className="w-full min-h-screen bg-background text-foreground px-6 py-16 md:py-24 flex flex-col gap-24"
+      className="w-full min-h-screen bg-background text-foreground px-6 py-8 md:py-24 flex flex-col gap-12 md:gap-24"
     >
       {/* Top Section: Form Left, Info Right */}
-      <div className="grid grid-cols-12 gap-8 lg:gap-16 items-start max-w-7xl mx-auto w-full">
+      <div className="flex flex-col md:grid md:grid-cols-12 gap-8 lg:gap-16 items-start max-w-7xl mx-auto w-full">
         {/* Left Column: Title and Contact Form */}
-        <div ref={formRef} className="col-span-12 md:col-span-7 flex flex-col gap-8">
+        <div ref={formRef} className="w-full col-span-12 md:col-span-7 flex flex-col gap-8">
           <div className="flex flex-col gap-3">
             <h1 className="contact-header-animate text-5xl md:text-7xl font-sans font-normal tracking-tight text-foreground leading-none">
               Contact Us
@@ -177,7 +177,7 @@ export default function ContactUs() {
         {/* Right Column: Contact Details & Socials */}
         <div
           ref={infoRef}
-          className="col-span-12 md:col-span-5 flex flex-col gap-10 md:pt-24 pl-0 md:pl-8 text-foreground/95"
+          className="w-full col-span-12 md:col-span-5 flex flex-col gap-10 md:pt-24 pl-0 md:pl-8 text-foreground/95"
         >
           {/* Visit Us section */}
           <div className="flex flex-col gap-3">
@@ -283,7 +283,7 @@ export default function ContactUs() {
           </h2>
         </div>
 
-        <div className="relative w-full h-[400px] rounded-sm overflow-hidden border border-foreground/10 bg-foreground/5 shadow-md mt-2">
+        <div className="relative w-full h-[250px] sm:h-[350px] md:h-[400px] rounded-sm overflow-hidden border border-foreground/10 bg-foreground/5 shadow-md mt-2">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58509.78018302302!2d86.93608149814454!3d23.685129655653457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f71f0ea10bf257%3A0x6fb0d7f950f58992!2sAsansol%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
             width="100%"
@@ -292,7 +292,7 @@ export default function ContactUs() {
             allowFullScreen={true}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            className="grayscale opacity-80 contrast-125 hover:opacity-95 transition-opacity duration-300"
+            className="w-full h-full grayscale opacity-80 contrast-125 hover:opacity-95 transition-opacity duration-300"
           />
         </div>
       </div>

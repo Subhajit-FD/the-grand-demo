@@ -51,7 +51,7 @@ function BookingModalForm() {
         </p>
 
         {/* Tab Selection */}
-        <div className="flex border-b border-foreground/10 mt-6 gap-6">
+        <div className="flex border-b border-foreground/10 mt-6 gap-2 sm:gap-6 justify-between sm:justify-start">
           {tabs.map((tab) => {
             const Icon = tab.icon;
             const isSelected = activeTab === tab.id;
@@ -60,7 +60,7 @@ function BookingModalForm() {
                 key={tab.id}
                 onClick={() => setTab(tab.id)}
                 className={cn(
-                  "flex items-center gap-2 pb-3 text-xs font-mono uppercase tracking-wider border-b-2 transition-all cursor-pointer",
+                  "flex flex-col sm:flex-row items-center gap-1 sm:gap-2 pb-2 sm:pb-3 text-[0.6rem] sm:text-xs font-mono uppercase tracking-wider border-b-2 transition-all cursor-pointer",
                   isSelected
                     ? "border-foreground text-foreground font-semibold"
                     : "border-transparent text-foreground/50 hover:text-foreground"
@@ -570,7 +570,7 @@ export default function BookingModal() {
         ref={modalBoxRef}
         className={cn(
           "w-full bg-background border border-foreground/15 rounded-sm shadow-2xl overflow-y-auto md:overflow-hidden flex flex-col md:grid md:grid-cols-12 duration-200 transition-all",
-          isSuccessStep ? "max-w-xl min-h-[500px]" : "max-w-5xl min-h-[600px] h-[90vh] md:h-[80vh]"
+          isSuccessStep ? "max-w-xl min-h-[500px]" : "max-w-5xl min-h-0 md:min-h-[600px] h-[90vh] md:h-[80vh]"
         )}
       >
         

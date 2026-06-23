@@ -102,12 +102,12 @@ export default function About() {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
     tlRef.current = tl;
 
-    // Reset components to animate state
-    gsap.set([headingRef.current, subheadingRef.current], { opacity: 1 });
-
     // 1. Split heading and subheading texts
     const splitHeading = new SplitText(headingRef.current, { type: "words,chars" });
     const splitSubheading = new SplitText(subheadingRef.current, { type: "words,chars" });
+
+    // Reset components to animate state and prevent FOUC / layout shift
+    gsap.set([headingRef.current, subheadingRef.current], { opacity: 1 });
 
     // Helper to italicize specific words after splitting
     const italicizeWords = (splitInstance: SplitText, wordsToItalicize: string[]) => {
@@ -214,13 +214,13 @@ export default function About() {
         <div key={current} className="col-span-12 md:col-span-9 flex flex-col gap-1 max-w-[800px]">
           <h2
             ref={headingRef}
-            className="text-3xl sm:text-4xl md:text-[3rem] font-sans font-normal leading-[1.15] tracking-tight text-foreground"
+            className="opacity-0 text-3xl sm:text-4xl md:text-[3rem] font-sans font-normal leading-[1.15] tracking-tight text-foreground"
           >
             {currentSlide.headingText}
           </h2>
           <h2
             ref={subheadingRef}
-            className="text-3xl sm:text-4xl md:text-[3rem] font-sans font-normal leading-[1.15] tracking-tight text-foreground"
+            className="opacity-0 text-3xl sm:text-4xl md:text-[3rem] font-sans font-normal leading-[1.15] tracking-tight text-foreground"
           >
             {currentSlide.subheadingText}
           </h2>
@@ -230,7 +230,7 @@ export default function About() {
       {/* Middle & Lower Elements Grid Layout */}
       <div className="mt-12 grid grid-cols-12 items-end gap-6">
         {/* Left column: Rotating Badge and Left Arrow */}
-        <div className="col-span-6 md:col-span-3 flex flex-col justify-between gap-12 self-stretch min-h-[220px]">
+        <div className="col-span-6 md:col-span-3 flex flex-col justify-between gap-12 self-stretch min-h-[220px] order-1 md:order-none">
           {/* Circular badge container */}
           <div ref={badgeContainerRef} className="flex justify-start">
             <div className="relative flex h-24 w-24 items-center justify-center">
@@ -272,10 +272,10 @@ export default function About() {
         </div>
 
         {/* Middle column: Wireframe circle decoration + Description Text */}
-        <div className="col-span-12 md:col-span-6 flex items-center justify-center self-stretch">
-          <div ref={descRef} className="relative flex items-center gap-6 pl-10 md:pl-16">
+        <div className="col-span-12 md:col-span-6 flex items-center justify-center self-stretch order-3 md:order-none">
+          <div ref={descRef} className="relative flex flex-col items-start sm:flex-row sm:items-center gap-4 sm:gap-6 pl-10 md:pl-16">
             {/* Outline Circle wireframe */}
-            <div className="absolute -left-12 top-1/2 h-44 w-44 -translate-y-1/2 rounded-full border border-foreground/10 pointer-events-none" />
+            <div className="absolute -left-3 md:-left-12 top-1/2 h-28 w-28 md:h-44 md:w-44 -translate-y-1/2 rounded-full border border-foreground/10 pointer-events-none" />
             
             {/* Horizontal connection line */}
             <div className="hidden sm:block h-px w-16 bg-foreground/20 shrink-0" />
@@ -293,7 +293,7 @@ export default function About() {
         </div>
 
         {/* Right column: Right Arrow, Image Container and Caption */}
-        <div className="col-span-6 md:col-span-3 flex flex-col items-end gap-3 self-stretch justify-between">
+        <div className="col-span-6 md:col-span-3 flex flex-col items-end gap-3 self-stretch justify-between order-2 md:order-none">
           {/* Right Navigation Arrow */}
           <div className="flex justify-end pr-2">
             <button

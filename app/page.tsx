@@ -6,7 +6,7 @@ import Container from "@/components/core/container"
 
 export default function Page() {
   return (
-    <div className="flex flex-col gap-16 min-h-svh">
+    <div className="flex flex-col gap-12 md:gap-16 min-h-svh">
       <ImageSlider />
       <Container className="py-0">
         <BookingSection />

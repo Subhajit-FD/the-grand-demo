@@ -137,10 +137,10 @@ export default function Rooms() {
             ref={(el) => {
               roomsRef.current[index] = el;
             }}
-            className="grid grid-cols-12 gap-8 lg:gap-16 items-center border-b border-foreground/10 pb-20 last:border-0 last:pb-0"
+            className="flex flex-col md:grid md:grid-cols-12 gap-8 lg:gap-16 items-center border-b border-foreground/10 pb-20 last:border-0 last:pb-0"
           >
             {/* Left Column: Large Image */}
-            <div className="col-span-12 md:col-span-6 lg:col-span-7">
+            <div className="w-full col-span-12 md:col-span-6 lg:col-span-7">
               <div className="room-image-container relative aspect-[4/3] w-full overflow-hidden rounded-sm bg-white/5">
                 <Image
                   src={room.imageSrc}
@@ -154,7 +154,7 @@ export default function Rooms() {
             </div>
 
             {/* Right Column: Room Details */}
-            <div className="col-span-12 md:col-span-6 lg:col-span-5 flex flex-col justify-between self-stretch py-2">
+            <div className="w-full col-span-12 md:col-span-6 lg:col-span-5 flex flex-col justify-between self-stretch py-2">
               <div className="flex flex-col gap-4">
                 <span className="room-animate-item text-[0.75rem] font-medium tracking-widest text-foreground/50 uppercase font-mono">
                   {room.category}

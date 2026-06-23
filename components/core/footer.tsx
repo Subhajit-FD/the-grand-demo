@@ -56,9 +56,9 @@ export default function Footer() {
       ref={footerRef}
       className="w-full bg-primary text-primary-foreground pt-16 pb-8 border-t border-white/5"
     >
-      <Container className="grid grid-cols-12 gap-8 lg:gap-12">
+      <Container className="grid grid-cols-2 md:grid-cols-12 gap-8 lg:gap-12">
         {/* Column 1: Brand details */}
-        <div className="footer-col col-span-12 md:col-span-6 lg:col-span-4 flex flex-col gap-5">
+        <div className="footer-col col-span-2 md:col-span-6 lg:col-span-4 flex flex-col gap-5">
           <Link href="/">
             <h2 className="text-2xl font-heading tracking-wide text-white">The Grand</h2>
           </Link>
@@ -90,7 +90,7 @@ export default function Footer() {
         </div>
 
         {/* Column 2: Navigation Links */}
-        <div className="footer-col col-span-6 md:col-span-3 lg:col-span-2 flex flex-col gap-5">
+        <div className="footer-col col-span-1 md:col-span-3 lg:col-span-2 flex flex-col gap-5">
           <span className="text-xs uppercase font-mono tracking-widest text-primary-foreground/45">
             Quick Links
           </span>
@@ -124,7 +124,7 @@ export default function Footer() {
         </div>
 
         {/* Column 3: Social Media Links */}
-        <div className="footer-col col-span-6 md:col-span-3 lg:col-span-2 flex flex-col gap-5">
+        <div className="footer-col col-span-1 md:col-span-3 lg:col-span-2 flex flex-col gap-5">
           <span className="text-xs uppercase font-mono tracking-widest text-primary-foreground/45">
             Connect
           </span>
@@ -169,11 +169,11 @@ export default function Footer() {
         </div>
 
         {/* Column 4: Map & Navigation */}
-        <div className="footer-col col-span-12 lg:col-span-4 flex flex-col gap-4 items-center lg:items-start text-center lg:text-left">
+        <div className="footer-col col-span-2 lg:col-span-4 flex flex-col gap-4 items-center lg:items-start text-center lg:text-left w-full">
           <span className="text-xs uppercase font-mono tracking-widest text-primary-foreground/45">
             Location Map
           </span>
-          <div className="relative w-full max-w-md lg:max-w-none h-[180px] rounded-sm overflow-hidden border border-white/10 bg-white/5">
+          <div className="relative w-full max-w-[280px] sm:max-w-md lg:max-w-none h-[120px] sm:h-[150px] md:h-[180px] rounded-sm overflow-hidden border border-white/10 bg-white/5">
             {/* Embedded monochrome Google Map of Asansol */}
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d58509.78018302302!2d86.93608149814454!3d23.685129655653457!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f71f0ea10bf257%3A0x6fb0d7f950f58992!2sAsansol%2C%20West%20Bengal!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
